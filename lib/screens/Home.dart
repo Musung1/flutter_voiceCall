@@ -5,8 +5,9 @@ import 'package:crud_project/widget/cardwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
-
+  Iterable<SingleCard> n1 = noteController.notes.map((value){
+    return SingleCard(note: value);
+  }).toList();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,5 +42,6 @@ class Home extends StatelessWidget {
       ),
     );
   }
+
 }
 

@@ -1,3 +1,4 @@
+import 'package:crud_project/widget/newCard.dart';
 import 'package:flutter/material.dart';
 class Cart extends StatelessWidget {
   const Cart({Key? key}) : super(key: key);
@@ -8,6 +9,7 @@ class Cart extends StatelessWidget {
       appBar:AppBar(
         title : Text("바구니"),
       ),
-    );
+      body : NewCard(),
+      );
   }
 }

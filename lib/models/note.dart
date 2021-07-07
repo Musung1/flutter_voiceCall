@@ -6,5 +6,8 @@ class NoteModel{
   String? name;
   String? title;
   NoteModel(this.name,this.title);
-
+  NoteModel.fromMap(Map<String,dynamic> data){
+    name = data[NAME];
+    title = data[TITLE];
+  }
 }

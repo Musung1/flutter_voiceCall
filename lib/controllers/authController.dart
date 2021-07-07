@@ -17,7 +17,7 @@ class AuthController extends GetxController{
   void onReady() {
     firebaseUser = Rx<User?>(auth.currentUser);
     firebaseUser.bindStream(auth.userChanges());
-    ever(firebaseUser,setScreen);
+    ever(firebaseUser,(User? a)=>setScreen(a));
     super.onReady();
   }
   setScreen(User? user){
@@ -27,8 +27,7 @@ class AuthController extends GetxController{
   void signIn(){
     auth.signInWithEmailAndPassword(
         email: email.text,
-        password: password.text);
-    clearControllers();
+        password: password.text).then((value)=> clearControllers());
 
   }
   void signUp(){
@@ -47,7 +46,7 @@ class AuthController extends GetxController{
     email.clear();
     password.clear();
   }
-  void signOut() async {
+  void signOut() {
     auth.signOut();
     clearControllers();
   }
