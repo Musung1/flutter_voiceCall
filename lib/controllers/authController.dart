@@ -2,6 +2,7 @@ import 'package:crud_project/constants/controller.dart';
 import 'package:crud_project/constants/firebase.dart';
 import 'package:crud_project/screens/Home.dart';
 import 'package:crud_project/screens/login.dart';
+import 'package:crud_project/screens/recommand.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -50,8 +51,8 @@ class AuthController extends GetxController{
     auth.signOut();
     clearControllers();
   }
-  addUserToFirebase(String userId){
-    firebaseFirestore.collection(usersCollection).doc(userId).set({
+  addUserToFirebase(String userId)async{
+    await firebaseFirestore.collection(usersCollection).doc(userId).set({
       "id": userId, "email": email.text.trim()
     });
   }

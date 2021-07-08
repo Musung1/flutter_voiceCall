@@ -34,6 +34,12 @@ class Home extends StatelessWidget {
               noteController.addList();
             } ,
           ),
+          TextButton(
+            child : Text("로그아웃"),
+            onPressed:(){
+              authController.signOut();
+            } ,
+          ),
           SizedBox(
             height : 30,
           ),
