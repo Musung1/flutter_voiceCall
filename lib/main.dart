@@ -1,4 +1,5 @@
 import 'package:crud_project/constants/controller.dart';
+import 'package:crud_project/controllers/NotificationController.dart';
 import 'package:crud_project/controllers/noteController.dart';
 import 'package:crud_project/screens/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +12,7 @@ void main()async{
   await Firebase.initializeApp().then((value){
     Get.put(AuthController());
     Get.put(NoteController());
+    Get.put(NotificationController());
   });
   runApp(MyApp());
 }
