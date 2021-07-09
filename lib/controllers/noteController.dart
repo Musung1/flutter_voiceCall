@@ -22,7 +22,7 @@ class NoteController extends GetxController{
   }
   addList(){ // 노트 받아서 리스트로 만듬
     notes.add(NoteModel(name.text,title.text));
-    addNoteToFirebase(notes[count]);
+    //addNoteToFirebase(notes[count]);
     count ++;
 }
 addNoteToFirebase(NoteModel noteModel){

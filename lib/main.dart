@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import 'controllers/authController.dart';
 
 void main()async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value){
+  WidgetsFlutterBinding.ensureInitialized(); // 초기 바인딩? 공부
+  await Firebase.initializeApp().then((value){ // 얘는 파이어베이스 쓰려면 해야함
     Get.put(AuthController());
     Get.put(NoteController());
     Get.put(NotificationController());

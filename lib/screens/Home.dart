@@ -1,4 +1,5 @@
 import 'package:crud_project/constants/controller.dart';
+import 'package:crud_project/controllers/NotificationController.dart';
 import 'package:crud_project/controllers/noteController.dart';
 import 'package:crud_project/screens/cart.dart';
 import 'package:crud_project/widget/cardwidget.dart';
@@ -38,6 +39,12 @@ class Home extends StatelessWidget {
             child : Text("로그아웃"),
             onPressed:(){
               authController.signOut();
+            } ,
+          ),
+          TextButton(
+            child : Text("푸시버튼"),
+            onPressed:(){
+              notificationController.showNotification();
             } ,
           ),
           SizedBox(

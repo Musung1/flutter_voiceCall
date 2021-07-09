@@ -25,14 +25,14 @@ class AuthController extends GetxController{
     if(user == null) Get.to(()=>Login());
     else Get.to(()=>Home());
   }
-  void signIn(){
-    auth.signInWithEmailAndPassword(
+  void signIn()async{
+    await auth.signInWithEmailAndPassword(
         email: email.text,
         password: password.text).then((value)=> clearControllers());
 
   }
-  void signUp(){
-    try{auth.createUserWithEmailAndPassword(
+  void signUp()async{
+    try{await auth.createUserWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),).then((result){
           String uid = result.user!.uid;
@@ -47,8 +47,8 @@ class AuthController extends GetxController{
     email.clear();
     password.clear();
   }
-  void signOut() {
-    auth.signOut();
+  void signOut()async{
+    await auth.signOut();
     clearControllers();
   }
   addUserToFirebase(String userId)async{
