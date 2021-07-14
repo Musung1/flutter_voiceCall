@@ -1,38 +1,27 @@
 import 'package:crud_project/constants/firebase.dart';
+import 'package:crud_project/service/local_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:crud_project/screens/pushscreen.dart';
 
 class NotificationController extends GetxController{
   static NotificationController instance = Get.find();
-  static const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'high_importance_channel',
-      'High Importance Notifications',
-      'This channel is used for important notifications',
-      importance: Importance.high,
-      playSound: true);
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message)async{
-    await Firebase.initializeApp();
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    await flutterLocalNotificationsPlugin
-    .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-    ?.createNotificationChannel(channel);
-  }
 
   @override
   void onReady()async{
     super.onReady();
-    FirebaseMessaging.instance.getInitialMessage();
-    _getToken();
+    LocalNotificationService.initialize();
+    FirebaseMessaging.instance.getInitialMessage(); //
     _initNotification();
 
 
   }
-
+  //Receive message when app is in background
+  Future<void> backgroundHandler(RemoteMessage message) async{
+  }
   _initNotification() async {
     NotificationSettings settings = await firebaseMessaging.requestPermission(
       alert: true,
@@ -50,74 +39,18 @@ class NotificationController extends GetxController{
     } else {
       print('User declined or has not accepted permission');
     }
-    FirebaseMessaging.onMessage.listen((RemoteMessage message){
-      print("got a message = ${message.data}");
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if(message.notification != null){
-        print('Message also contained a notification : ${message.notification!.body} and ${message.notification!.title}');
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification!.title,
-          notification!.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channel.description,
-              color: Colors.blue,
-              playSound: true,
-              icon: '@mipmap/ic_launcher',
-            ),
-          )
-        );
+    FirebaseMessaging.onMessage.listen((message) {
+      if (message.notification != null) {
+        print(message.notification!.body);
+        print(message.notification!.title);
       }
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message){
-      print('새 메세지 오픈');
-       RemoteNotification? notification = message.notification;
-       AndroidNotification? android = message.notification?.android;
-       if(notification != null && android != null){
-         Get.dialog(
-           AlertDialog(
-             title : Text(notification.title!),
-             content: SingleChildScrollView(
-               child : Column(
-                 crossAxisAlignment: CrossAxisAlignment.start,
-                 children: [
-                   Text(notification.body!),
-                 ],
-               ),
-             ),
-           ),
-         );
-         }
-       }
-    );
-
-  }
-  Future<void> _getToken()async{
-    try{
-      String? token = await firebaseMessaging.getToken();
-      print("토근 $token");
+      LocalNotificationService.display(message);
     }
-    catch(e){}
-  }
-  void showNotification(){
-    flutterLocalNotificationsPlugin.show(
-      0,
-      "새로운 메세지",
-      "hello",
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-            channel.id,
-            channel.name, channel.description,
-            importance: Importance.high,
-            color: Colors.blue,
-            playSound: true,
-            icon: '@mipmap/ic_launcher'
-        ),
-      ),
     );
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      final routeFromMessage = message.data["route"];
+      Get.to(()=>PushScreen());
+    });
+
   }
 }

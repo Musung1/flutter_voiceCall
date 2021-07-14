@@ -41,12 +41,7 @@ class Home extends StatelessWidget {
               authController.signOut();
             } ,
           ),
-          TextButton(
-            child : Text("푸시버튼"),
-            onPressed:(){
-              notificationController.showNotification();
-            } ,
-          ),
+
           SizedBox(
             height : 30,
           ),
