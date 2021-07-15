@@ -2,13 +2,11 @@ import 'package:crud_project/constants/controller.dart';
 import 'package:crud_project/controllers/NotificationController.dart';
 import 'package:crud_project/controllers/noteController.dart';
 import 'package:crud_project/screens/cart.dart';
+import 'package:crud_project/screens/chatRoom.dart';
 import 'package:crud_project/widget/cardwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class Home extends StatelessWidget {
-  Iterable<SingleCard> n1 = noteController.notes.map((value){
-    return SingleCard(note: value);
-  }).toList();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,15 +22,18 @@ class Home extends StatelessWidget {
       body : Column(
         children: [
           TextField(
-            controller: noteController.name,
+            controller: audioController.channelName,
           ),
-          TextField(
-            controller : noteController.title,
-          ),
+          // TextField(
+          //   controller : noteController.title,
+          // ),
           TextButton(
             child : Text("등록"),
             onPressed:(){
-              noteController.addList();
+              //noteController.addList();
+              audioController.makeChannel();
+              audioController.addChannelToFirebase();
+              Get.to(()=>ChatRoom(),arguments:audioController.channelName.text);
             } ,
           ),
           TextButton(
@@ -45,7 +46,6 @@ class Home extends StatelessWidget {
           SizedBox(
             height : 30,
           ),
-          CardWidget(),
         ],
       ),
     );

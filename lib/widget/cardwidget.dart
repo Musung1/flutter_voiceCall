@@ -1,6 +1,7 @@
 import 'package:crud_project/constants/controller.dart';
+import 'package:crud_project/controllers/audioChatController.dart';
 import 'package:crud_project/controllers/noteController.dart';
-import 'package:crud_project/models/note.dart';
+import 'package:crud_project/models/room.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,8 +11,8 @@ class CardWidget extends GetWidget<NoteController> {
   @override
   Widget build(BuildContext context) {
     return Obx(()=>Column(
-      children: noteController.notes.map((value){
-        return SingleCard(note: value);
+      children: audioController.channels.map((value){
+        return SingleCard(channel: value);
       }).toList(),
     ));
   }
@@ -20,10 +21,10 @@ class CardWidget extends GetWidget<NoteController> {
 class SingleCard extends StatelessWidget {
   const SingleCard({
     Key? key,
-    required this.note,
+    required this.channel,
   }) : super(key: key);
 
-  final NoteModel note;
+  final RoomModel channel;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +36,7 @@ class SingleCard extends StatelessWidget {
         color : Colors.amberAccent,
         child : Column(
           children: [
-            Text(note.name!),
-            Text(note.title!),
+            Text(channel.channel!),
           ],
         ),
       ),
